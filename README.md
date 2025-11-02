@@ -59,23 +59,214 @@ To ensure our Power BI dashboard reflects **live data updates**, we connected th
 
 ### ⚙️ Connection Workflow
 
-```mermaid
-%% Works on GitHub
-graph LR
-    A[Kaggle Dataset] --> B[Data Cleaning & Filtering (Excel Power Query)]
-    B --> C[Upload Cleaned Files to SharePoint or OneDrive]
-    C --> D[Generate Shareable Link]
-    D --> E[Power BI Desktop - Get Data from Web URL]
-    E --> F[Dynamic Dashboard with Auto Refresh]
+> **End-to-End Data Flow:** From Kaggle dataset to Power BI dynamic dashboard
 
-    %% Simple color scheme
-    classDef source fill:#f9f871,stroke:#d6b600,stroke-width:2px,color:#000;
-    classDef process fill:#a5d6a7,stroke:#2e7d32,stroke-width:2px,color:#000;
-    classDef share fill:#90caf9,stroke:#1565c0,stroke-width:2px,color:#000;
-    classDef end fill:#f48fb1,stroke:#ad1457,stroke-width:2px,color:#000;
+---
 
-    class A source;
-    class B,C process;
-    class D,E share;
-    class F end;
+#### 🟨 Step 1 – Kaggle Dataset
+We collected the accident data from [Kaggle](https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated), which contains U.S. accident details such as severity, location, weather, and time.
+
+⬇️
+
+#### 🟩 Step 2 – Data Cleaning & Filtering
+Cleaned the dataset in **Excel / Power Query**, removing unnecessary columns, fixing missing values, and converting date-time fields.
+
+⬇️
+
+#### 🟦 Step 3 – Upload to SharePoint / OneDrive
+The cleaned files were uploaded to **SharePoint Online / OneDrive** to enable live web-based access.
+
+⬇️
+
+#### 🟪 Step 4 – Generate Shareable Link
+A public read-only link was generated from SharePoint to be used directly inside Power BI.
+
+⬇️
+
+#### 🟧 Step 5 – Load into Power BI Desktop
+In **Power BI Desktop**, we used:  
+`Home → Get Data → Web → Paste URL → Load`  
+to fetch both sheets — *Accident_Data* and *Weather_Data*.
+
+⬇️
+
+#### 🟥 Step 6 – Dynamic Dashboard with Auto Refresh
+Because the dataset is hosted on SharePoint, any updates to the files are reflected automatically in Power BI after refresh.
+
+---
+
+## 🧮 Data Preparation & Transformation Process
+
+Before creating visual dashboards, the dataset required extensive **cleaning and transformation** to ensure accurate analysis and smooth model performance in Power BI.
+
+---
+
+### 🧹 Step 1 – Initial Data Inspection
+The original Kaggle dataset contained **47 columns** and **millions of rows**.  
+We reviewed the fields and decided to **retain only those relevant to accident and weather insights.**
+
+**Unnecessary columns removed:**
+`Amenity`, `Bump`, `Crossing`, `Give_Way`, `Junction`, `No_Exit`, `Railway`,  
+`Roundabout`, `Station`, `Stop`, `Traffic_Calming`, `Traffic_Signal`, `Turning_Loop`,  
+`Civil_Twilight`, `Nautical_Twilight`, and similar roadway indicators.
+
+---
+
+### 🧩 Step 2 – Splitting the Dataset
+To simplify relationships and improve refresh speed, the dataset was **divided into two structured tables:**
+
+| File Name | Description |
+|------------|-------------|
+| **Accident_Data** | Includes accident-related details — ID, location, severity, time, distance, city, county, and state. |
+| **Weather_Data**  | Includes hourly weather information — temperature, humidity, pressure, visibility, wind speed, and precipitation. |
+
+Each file was uploaded to **SharePoint** and linked dynamically inside Power BI.
+---
+
+### 💾 Step 5 – Final Output
+- **File 1:** `Accident_Data.xlsx` → uploaded to SharePoint  
+- **File 2:** `Weather_Data.xlsx` → uploaded to SharePoint  
+- Both connected dynamically in Power BI for live visualization.
+  
+---
+## 🧠 Data Modeling & DAX Calculations
+
+After completing all data preparation steps, datasets were loaded into **Power BI Desktop** for modeling and insight generation.
+
+---
+
+### 🧾 Step 1 – Power Query Editor Refinement
+Using **Power Query Editor**, we performed an additional validation before loading data into the report view:
+
+- Checked for **duplicate records** in both Accident and Weather tables.  
+- Used **Fill Up** and **Fill Down** transformations to replace missing values.  
+- Verified **data profiling** (column quality, distribution, and completeness) to ensure no nulls or format mismatches remained.  
+
+Once data quality was confirmed, both tables were loaded into the **Power BI Report Editor**.
+
+---
+
+### 🧩 Step 2 – Data Modeling Structure
+We created a simple yet efficient **data model** linking all tables through key relationships.
+
+**Model Components:**
+- `Accident_Data` (Fact Table)  
+- `Weather_Data` (Lookup Table)  
+- `Dim_Date` – created using the `CALENDAR()` DAX function for date-based analysis  
+- `Dim_Hour` – created for time-based insights (0–23 hour range)
+
+**Relationships:**
+- `Dim_Date[Date]` → `Accident_Data[Start_Date]` (1:* relationship)  
+- `Dim_Hour[Hour]` → `Accident_Data[Start_Hour]` (1:* relationship)  
+- `Weather_Data[GeoKey]` → `Accident_Data[GeoKey]` (1:* relationship)  
+
+---
+
+### 📊 Step 3 – DAX Tables and Measures
+
+After the model was built, several **DAX measures** were created to drive insights across dashboards.  
+These measures were defined in the **Report Editor** (not Power Query) to allow faster, dynamic calculations.
+
+| Measure Name | Formula / Description |
+|---------------|-----------------------|
+| **Total Accidents** | `COUNTROWS(Accident_Data)` – Calculates total number of accident records. |
+| **Average Temperature (°F)** | `AVERAGE(Weather_Data[Temperature(F)])` – Finds mean temperature during accidents. |
+| **Average Visibility (mi)** | `AVERAGE(Weather_Data[Visibility(mi)])` – Measures average visibility at accident time. |
+| **Accidents by Severity** | Used in bar visuals to count accidents grouped by `Severity`. |
+| **Accidents by Year** | `CALCULATE(COUNTROWS(Accident_Data), VALUES(Dim_Date[Year]))` – Used in line/area charts. |
+| **Weather Impact Index** | Custom ratio comparing accident count vs. precipitation and visibility. |
+
+---
+
+<div align="center">
+
+✅ *The data model and DAX measures form the analytical backbone of the Power BI dashboard — ensuring accurate, real-time insights across all visuals.*
+
+</div>
+
+---
+## 📈 Dashboard Design & Insights
+
+The **Weather-Aware Accident Risk Platform Dashboard** was designed in **Power BI Desktop** to make the analysis simple, visual, and interactive.  
+Each page of the dashboard focuses on specific objectives and KPIs, allowing users to explore accident patterns by weather, time, and location.
+
+---
+
+### 🧭 Page 1 – Overview Dashboard
+
+**Purpose:**  
+Provide a one-glance summary of total accident trends across the United States.
+
+**Key Visuals:**
+- **Total Accidents (KPI Card):** Displays the total count of accident records.  
+- **Accidents by Year (Area Chart):** Shows year-wise fluctuations from 2016 to 2024.  
+- **Accidents by Severity (Bar Chart):** Highlights severity levels (1 – minor to 4 – major).  
+- **Accidents by State (Map Visual):** Geographic distribution of accident density.  
+- **Weather Impact KPI:** Combines average visibility and precipitation levels to show risk intensity.
+
+**Insights:**
+- Peak accident years coincide with higher precipitation averages.  
+- States with low visibility (fog / snow) show increased severity scores.  
+
+---
+
+### 🌦 Page 2 – Weather Impact Analysis
+
+**Purpose:**  
+Study how weather parameters influence accident frequency and severity.
+
+**Visuals Used:**
+- **Temperature vs Accidents (Line + Clustered Column Chart)**  
+- **Precipitation vs Accidents (Scatter Plot)**  
+- **Visibility Impact (Bar Chart)**  
+- **Average Humidity and Wind Speed (KPI Cards)**  
+
+**Insights:**
+- Accident counts rise sharply when visibility < 5 miles.  
+- Light rain / snow conditions contribute to over 40 % of moderate-severity cases.  
+- Higher humidity correlates with longer response times in severe accidents.
+
+---
+
+### ⏱ Page 3 – Time & Trend Analysis
+
+**Purpose:**  
+Identify the most accident-prone hours, days, and months.
+
+**Visuals Used:**
+- **Accidents by Hour (Heatmap):** Color-coded hourly density.  
+- **Day of Week Pattern (Column Chart):** Compares weekday vs weekend trends.  
+- **Monthly Trend (Area Chart):** Shows seasonality in accident counts.
+
+**Insights:**
+- Rush hours (7–9 AM and 4–7 PM) record the highest accident frequency.  
+- Fridays and winter months show noticeably higher incidents.  
+
+---
+
+### 🗺 Page 4 – Regional Comparative Analysis
+
+**Purpose:**  
+Enable state-wise and regional comparison using dynamic filters.
+
+**Visuals Used:**
+- **State Filter Dropdown (Slicer)**  
+- **Top 10 Cities by Accident Count (Table)**  
+- **Severity Distribution (Donut Chart)**  
+- **Weather Condition Breakdown (Stacked Bar)**  
+
+**Insights:**
+- Southern and Eastern states show greater correlation between precipitation and severe accidents.  
+- Cities with denser traffic have higher “minor accident” proportions, implying congestion-related risks.  
+
+---
+
+<div align="center">
+
+✅ *The final Power BI dashboard provides end-to-end visibility into how weather conditions influence U.S. road accidents, enabling proactive safety planning and policy improvements.*
+
+</div>
+
+---
+
 
