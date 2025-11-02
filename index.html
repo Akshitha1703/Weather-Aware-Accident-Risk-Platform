@@ -1,1 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather-Aware Accident Risk Platform</title>
+<style>
+:root{
+  --blue:#0d47a1;
+  --lightblue:#1976d2;
+  --accent:#2196f3;
+  --white:#fff;
+  --gray:#f4f7fa;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.6;
+  color:#333;
+  background-color:var(--gray);
+}
+header{
+  background:linear-gradient(135deg,var(--blue),var(--lightblue));
+  color:var(--white);
+  text-align:center;
+  padding:80px 20px;
+}
+header h1{font-size:2.8rem;margin:0;}
+header p{font-size:1.2rem;margin:10px 0 20px;}
+nav{
+  background-color:var(--blue);
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:14px 22px;
+  font-weight:600;
+}
+nav a:hover{background-color:var(--accent);}
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:60px 25px;
+}
+section:nth-child(even){background-color:var(--white);}
+h2{color:var(--blue);margin-top:0;}
+.cards{display:flex;flex-wrap:wrap;gap:20px;}
+.card{
+  flex:1;min-width:260px;background:#fff;border-radius:8px;padding:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+.card h3{color:var(--lightblue);margin-top:0;}
+.btn{
+  display:inline-block;
+  background:var(--accent);
+  color:#fff;
+  padding:10px 18px;
+  border-radius:6px;
+  text-decoration:none;
+  margin:4px;
+  font-weight:600;
+}
+table{
+  width:100%;border-collapse:collapse;margin-top:20px;
+}
+th,td{padding:10px;border:1px solid #ccc;}
+th{background:var(--blue);color:#fff;}
+footer{
+  background-color:var(--blue);
+  color:#fff;
+  text-align:center;
+  padding:40px 20px;
+}
+@media(max-width:700px){
+  header h1{font-size:2rem;}
+  .cards{flex-direction:column;}
+}
+</style>
+</head>
+<body>
 
+<header>
+  <h1>🌦️ Weather-Aware Accident Risk Platform</h1>
+  <p>Power BI Insights on How Weather Conditions Affect US Road Accidents</p>
+  <a class="btn" href="https://powerbi.microsoft.com/">Power BI</a>
+  <a class="btn" href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated">Kaggle Dataset</a>
+</header>
+
+<nav>
+  <a href="#overview">Overview</a>
+  <a href="#data">Data Source</a>
+  <a href="#prep">Preparation</a>
+  <a href="#model">Model & DAX</a>
+  <a href="#dashboard">Dashboards</a>
+  <a href="#budget">Budget</a>
+</nav>
+
+<section id="overview">
+  <h2>🚗 Project Overview</h2>
+  <p>The <b>Weather-Aware Accident Risk Platform</b> analyzes the relationship between weather and road accidents across the U.S. using live Power BI dashboards connected through SharePoint.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>🎯 Goals</h3>
+      <ul>
+        <li>Correlate weather factors with accident severity and frequency.</li>
+        <li>Enable dynamic, auto-refreshing reports via SharePoint.</li>
+        <li>Provide clear, actionable visual insights for safety planning.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧩 Tools Used</h3>
+      <ul>
+        <li>Microsoft Power BI Desktop</li>
+        <li>Excel / Power Query</li>
+        <li>SharePoint Online</li>
+        <li>Kaggle US Accidents Dataset</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="data">
+  <h2>📦 Data Source & Dynamic Connection</h2>
+  <p>Data sourced from <a href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated"><b>US Accidents (Updated)</b></a>, containing 7M+ records with location, time, and weather details.</p>
+  <ol>
+    <li>Download dataset from Kaggle.</li>
+    <li>Clean/filter in Excel Power Query.</li>
+    <li>Split into <b>Accident_Data</b> and <b>Weather_Data</b>.</li>
+    <li>Upload to SharePoint for web URL link.</li>
+    <li>Use <b>Get Data → Web</b> in Power BI to connect live.</li>
+  </ol>
+</section>
+
+<section id="prep">
+  <h2>🧮 Data Preparation & Transformation</h2>
+  <ul>
+    <li>Removed unnecessary columns (Amenity, Bump, Junction etc.).</li>
+    <li>Derived columns: Year, Month, Day_of_Week, Hour, GeoKey (City + State + Zip).</li>
+    <li>Validated duplicates & null values in Power Query Editor.</li>
+    <li>Final files uploaded to SharePoint for dynamic connection.</li>
+  </ul>
+</section>
+
+<section id="model">
+  <h2>🧠 Data Model & DAX Calculations</h2>
+  <p>Data modeled in a star schema with fact and lookup tables.</p>
+  <table>
+    <tr><th>Table</th><th>Description</th></tr>
+    <tr><td>Accident_Data</td><td>Fact table with accident details</td></tr>
+    <tr><td>Weather_Data</td><td>Lookup table for weather parameters</td></tr>
+    <tr><td>Dim_Date</td><td>Calendar created via CALENDAR()</td></tr>
+    <tr><td>Dim_Hour</td><td>Hour lookup (0–23)</td></tr>
+  </table>
+  <h3>DAX Measures</h3>
+  <ul>
+    <li>Total Accidents = COUNTROWS(Accident_Data)</li>
+    <li>Avg Temperature = AVERAGE(Weather_Data[Temperature(F)])</li>
+    <li>Avg Visibility = AVERAGE(Weather_Data[Visibility(mi)])</li>
+    <li>Accidents by Year = CALCULATE(COUNTROWS(Accident_Data), VALUES(Dim_Date[Year]))</li>
+    <li>Weather Impact Index = Custom ratio of accidents to precipitation & visibility</li>
+  </ul>
+</section>
+
+<section id="dashboard">
+  <h2>📊 Dashboard Insights</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Overview Page</h3>
+      <p>Total Accidents KPI | Yearly Trend | Severity Bar | Map by State</p>
+      <p><i>Peak accidents during low visibility and rain periods.</i></p>
+    </div>
+    <div class="card">
+      <h3>Weather Impact Page</h3>
+      <p>Temperature vs Accidents | Visibility Impact Bar | Precipitation Scatter</p>
+      <p><i>Accidents increase when visibility < 5 miles.</i></p>
+    </div>
+    <div class="card">
+      <h3>Time & Trend Page</h3>
+      <p>Hourly Heatmap | Day-of-Week Analysis | Monthly Pattern</p>
+      <p><i>Rush hours and Fridays show highest risk.</i></p>
+    </div>
+    <div class="card">
+      <h3>Regional Comparison</h3>
+      <p>Top Cities | Severity Donut | Weather Condition Stacked Bar</p>
+      <p><i>Southern states show strong precipitation-severity link.</i></p>
+    </div>
+  </div>
+</section>
+
+<section id="budget">
+  <h2>💰 Budget Breakdown ($40 000)</h2>
+  <table>
+    <tr><th>Workstream</th><th>Scope</th><th>Hours</th><th>Rate</th><th>Total</th></tr>
+    <tr><td>Data Engineering</td><td>Cleaning, SharePoint setup</td><td>120</td><td>$120</td><td>$14 400</td></tr>
+    <tr><td>Modeling & DAX</td><td>Relationships, measures</td><td>80</td><td>$120</td><td>$9 600</td></tr>
+    <tr><td>Dashboard UX</td><td>Design & visuals</td><td>70</td><td>$110</td><td>$7 700</td></tr>
+    <tr><td>Documentation & Site</td><td>README, presentation</td><td>60</td><td>$100</td><td>$6 000</td></tr>
+    <tr><td>PM & Review</td><td>Testing & delivery</td><td>25</td><td>$92</td><td>$2 300</td></tr>
+    <tr style="font-weight:bold;"><td colspan="4">Total</td><td>$40 000</td></tr>
+  </table>
+</section>
+
+<footer>
+  <p>Developed by Aishwarya Baluri | Data Analyst & BI Developer</p>
+  <p>📍 Saint Louis, USA | Graduating Dec 2024 | Weather Analytics Project</p>
+</footer>
+
+</body>
+</html>
