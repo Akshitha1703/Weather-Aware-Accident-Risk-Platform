@@ -1,212 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Weather-Aware Accident Risk Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --blue:#0d47a1;
-  --lightblue:#1976d2;
-  --accent:#2196f3;
-  --white:#fff;
-  --gray:#f4f7fa;
+  --bg:#0b1020;
+  --panel:#0f172a;
+  --card:#11182e;
+  --ink:#e5ecff;
+  --muted:#a9b4d6;
+  --brand:#60a5fa;
+  --brand-2:#34d399;
+  --brand-3:#f59e0b;
+  --bad:#ef4444;
+  --ok:#22c55e;
+  --grid:1200px;
+  --radius:16px;
+  --shadow:0 10px 30px rgba(6,10,30,.35);
 }
-*{box-sizing:border-box;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  margin:0;
-  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  line-height:1.6;
-  color:#333;
-  background-color:var(--gray);
+  margin:0; font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink); background:
+  radial-gradient(1200px 800px at 10% -20%, #1e293b 10%, transparent 60%),
+  radial-gradient(1000px 700px at 110% 10%, #0ea5e9 0%, transparent 55%),
+  linear-gradient(180deg, #0b1020 0%, #0a0f1e 100%);
+  background-color:var(--bg);
 }
-header{
-  background:linear-gradient(135deg,var(--blue),var(--lightblue));
-  color:var(--white);
-  text-align:center;
-  padding:80px 20px;
+a{color:var(--brand)}
+.container{max-width:var(--grid); margin:auto; padding:0 20px}
+.section{padding:88px 0}
+.badge{display:inline-block; padding:6px 12px; border-radius:999px; background:#0b1936; color:#9cc2ff; font-weight:600; border:1px solid #17305f}
+h1,h2,h3{margin:0 0 14px}
+p{margin:0 0 12px; color:var(--muted)}
+/* ——— NAV ——— */
+.nav{
+  position:sticky; top:0; z-index:20;
+  backdrop-filter:saturate(180%) blur(10px);
+  background:linear-gradient(180deg, rgba(9,14,28,.85), rgba(9,14,28,.45));
+  border-bottom:1px solid rgba(99,102,241,.2);
 }
-header h1{font-size:2.8rem;margin:0;}
-header p{font-size:1.2rem;margin:10px 0 20px;}
-nav{
-  background-color:var(--blue);
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
+.brand .dot{width:12px; height:12px; border-radius:50%;
+  background:conic-gradient(from 180deg, var(--brand), var(--brand-2), var(--brand-3), var(--brand));
+  box-shadow:0 0 16px rgba(96,165,250,.7)}
+.menu{display:flex; gap:18px; flex-wrap:wrap}
+.menu a{color:#cbd5ff; text-decoration:none; font-weight:600}
+.menu a:hover{color:#fff}
+/* ——— HERO ——— */
+.hero{padding:96px 0 72px}
+.hero .grid{display:grid; gap:28px; grid-template-columns:1.1fr .9fr}
+.hero h1{font-size:48px; line-height:1.1; letter-spacing:-.4px}
+.kits{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 24px}
+.kits a{background:#0f254a; color:#dbe7ff; border:1px solid #1d376a; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700}
+.kits a:hover{border-color:#2f5aa1}
+.hero .panel{
+  border-radius:var(--radius);
+  background:linear-gradient(180deg,#0e1530,#0c142a);
+  border:1px solid rgba(99,102,241,.2);
+  box-shadow:var(--shadow);
+  padding:18px; display:grid; gap:12px
 }
-nav a{
-  color:#fff;
-  text-decoration:none;
-  padding:14px 22px;
-  font-weight:600;
-}
-nav a:hover{background-color:var(--accent);}
-section{
-  max-width:1100px;
-  margin:auto;
-  padding:60px 25px;
-}
-section:nth-child(even){background-color:var(--white);}
-h2{color:var(--blue);margin-top:0;}
-.cards{display:flex;flex-wrap:wrap;gap:20px;}
+.kpi{display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-radius:12px; background:#0d1a36; border:1px solid #1e2a52}
+.kpi strong{font-size:22px}
+.spark{height:48px; background:
+  linear-gradient(180deg,rgba(96,165,250,.2),rgba(96,165,250,0)) ,
+  repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 1px, transparent 1px 60px);
+  border-radius:10px}
+/* ——— CARDS ——— */
+.cards{display:grid; gap:18px; grid-template-columns:repeat(12,1fr)}
 .card{
-  flex:1;min-width:260px;background:#fff;border-radius:8px;padding:20px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  grid-column:span 4; background:linear-gradient(180deg,#0f172a,#0b1428);
+  border:1px solid rgba(102,112,255,.18); border-radius:14px; padding:18px; box-shadow:var(--shadow)
 }
-.card h3{color:var(--lightblue);margin-top:0;}
-.btn{
-  display:inline-block;
-  background:var(--accent);
-  color:#fff;
-  padding:10px 18px;
-  border-radius:6px;
-  text-decoration:none;
-  margin:4px;
-  font-weight:600;
-}
-table{
-  width:100%;border-collapse:collapse;margin-top:20px;
-}
-th,td{padding:10px;border:1px solid #ccc;}
-th{background:var(--blue);color:#fff;}
-footer{
-  background-color:var(--blue);
-  color:#fff;
-  text-align:center;
-  padding:40px 20px;
-}
-@media(max-width:700px){
-  header h1{font-size:2rem;}
-  .cards{flex-direction:column;}
+.card h3{color:#e6eeff}
+.card ul{padding-left:18px; margin:12px 0}
+.card li{margin:6px 0}
+/* ——— STEPS ——— */
+.steps{display:grid; gap:16px; grid-template-columns:repeat(3,1fr)}
+.step{background:#0c152e; border:1px solid #1d2c55; border-radius:14px; padding:16px}
+.step .n{width:28px;height:28px;border-radius:6px;background:#102452;color:#a5c7ff; display:inline-flex;align-items:center;justify-content:center;font-weight:800;margin-right:8px}
+/* ——— TABLES ——— */
+.table{width:100%; border-collapse:collapse; margin-top:12px}
+.table th,.table td{border:1px solid #243154; padding:12px}
+.table th{background:#102040; color:#e6eeff; text-align:left}
+.table td{color:#c8d3f7}
+/* ——— GRID HELPERS ——— */
+.span-6{grid-column:span 6}
+.span-8{grid-column:span 8}
+.span-12{grid-column:span 12}
+/* ——— CALLOUT ——— */
+.callout{border-left:4px solid var(--brand); padding:12px 14px; background:#0e1a33; border-radius:8px}
+/* ——— FOOTER ——— */
+footer{padding:48px 0; border-top:1px solid rgba(99,102,241,.2); background:linear-gradient(180deg,#0b1020,#080c18)}
+footer p{color:#9fb1df}
+/* ——— SMALL ——— */
+@media (max-width: 980px){
+  .hero .grid{grid-template-columns:1fr}
+  .card{grid-column:span 12}
+  .steps{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>🌦️ Weather-Aware Accident Risk Platform</h1>
-  <p>Power BI Insights on How Weather Conditions Affect US Road Accidents</p>
-  <a class="btn" href="https://powerbi.microsoft.com/">Power BI</a>
-  <a class="btn" href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated">Kaggle Dataset</a>
-</header>
-
-<nav>
-  <a href="#overview">Overview</a>
-  <a href="#data">Data Source</a>
-  <a href="#prep">Preparation</a>
-  <a href="#model">Model & DAX</a>
-  <a href="#dashboard">Dashboards</a>
-  <a href="#budget">Budget</a>
-</nav>
-
-<section id="overview">
-  <h2>🚗 Project Overview</h2>
-  <p>The <b>Weather-Aware Accident Risk Platform</b> analyzes the relationship between weather and road accidents across the U.S. using live Power BI dashboards connected through SharePoint.</p>
-  <div class="cards">
-    <div class="card">
-      <h3>🎯 Goals</h3>
-      <ul>
-        <li>Correlate weather factors with accident severity and frequency.</li>
-        <li>Enable dynamic, auto-refreshing reports via SharePoint.</li>
-        <li>Provide clear, actionable visual insights for safety planning.</li>
-      </ul>
+<!-- NAV -->
+<div class="nav">
+  <div class="container wrap">
+    <div class="brand"><span class="dot"></span> Weather-Aware Accident Risk</div>
+    <div class="menu">
+      <a href="#overview">Overview</a>
+      <a href="#data">Data</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#prep">Preparation</a>
+      <a href="#model">Model & DAX</a>
+      <a href="#dash">Dashboards</a>
+      <a href="#budget">Budget</a>
+      <a href="#docs">Docs</a>
     </div>
-    <div class="card">
-      <h3>🧩 Tools Used</h3>
-      <ul>
-        <li>Microsoft Power BI Desktop</li>
-        <li>Excel / Power Query</li>
-        <li>SharePoint Online</li>
-        <li>Kaggle US Accidents Dataset</li>
-      </ul>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero section" id="overview">
+  <div class="container grid">
+    <div>
+      <span class="badge">Power BI • SharePoint • Kaggle</span>
+      <h1>Weather-Aware Accident Risk Platform</h1>
+      <p>Interactive analytics that reveal how <strong>temperature, visibility, wind and precipitation</strong> influence <strong>U.S. road accidents</strong> — presented in a clear, decision-ready interface for non-technical stakeholders.</p>
+      <div class="kits">
+        <a href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated">Dataset: Kaggle</a>
+        <a href="#dash">Preview dashboard structure</a>
+        <a href="#docs">Read full project steps</a>
+      </div>
+      <div class="callout">
+        Built for clarity: a single source of truth on SharePoint, dynamic refresh in Power BI, and concise KPIs for faster safety decisions.
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="kpi">
+        <div>
+          <div style="color:#9fb1df">Total Coverage</div>
+          <strong>2016 — 2024</strong>
+        </div>
+        <div class="badge">Nationwide</div>
+      </div>
+      <div class="kpi">
+        <div>
+          <div style="color:#9fb1df">Dynamic Connection</div>
+          <strong>SharePoint ➝ Power BI</strong>
+        </div>
+        <div class="badge">Auto-Refresh</div>
+      </div>
+      <div class="spark"></div>
     </div>
   </div>
 </section>
 
-<section id="data">
-  <h2>📦 Data Source & Dynamic Connection</h2>
-  <p>Data sourced from <a href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated"><b>US Accidents (Updated)</b></a>, containing 7M+ records with location, time, and weather details.</p>
-  <ol>
-    <li>Download dataset from Kaggle.</li>
-    <li>Clean/filter in Excel Power Query.</li>
-    <li>Split into <b>Accident_Data</b> and <b>Weather_Data</b>.</li>
-    <li>Upload to SharePoint for web URL link.</li>
-    <li>Use <b>Get Data → Web</b> in Power BI to connect live.</li>
-  </ol>
-</section>
-
-<section id="prep">
-  <h2>🧮 Data Preparation & Transformation</h2>
-  <ul>
-    <li>Removed unnecessary columns (Amenity, Bump, Junction etc.).</li>
-    <li>Derived columns: Year, Month, Day_of_Week, Hour, GeoKey (City + State + Zip).</li>
-    <li>Validated duplicates & null values in Power Query Editor.</li>
-    <li>Final files uploaded to SharePoint for dynamic connection.</li>
-  </ul>
-</section>
-
-<section id="model">
-  <h2>🧠 Data Model & DAX Calculations</h2>
-  <p>Data modeled in a star schema with fact and lookup tables.</p>
-  <table>
-    <tr><th>Table</th><th>Description</th></tr>
-    <tr><td>Accident_Data</td><td>Fact table with accident details</td></tr>
-    <tr><td>Weather_Data</td><td>Lookup table for weather parameters</td></tr>
-    <tr><td>Dim_Date</td><td>Calendar created via CALENDAR()</td></tr>
-    <tr><td>Dim_Hour</td><td>Hour lookup (0–23)</td></tr>
-  </table>
-  <h3>DAX Measures</h3>
-  <ul>
-    <li>Total Accidents = COUNTROWS(Accident_Data)</li>
-    <li>Avg Temperature = AVERAGE(Weather_Data[Temperature(F)])</li>
-    <li>Avg Visibility = AVERAGE(Weather_Data[Visibility(mi)])</li>
-    <li>Accidents by Year = CALCULATE(COUNTROWS(Accident_Data), VALUES(Dim_Date[Year]))</li>
-    <li>Weather Impact Index = Custom ratio of accidents to precipitation & visibility</li>
-  </ul>
-</section>
-
-<section id="dashboard">
-  <h2>📊 Dashboard Insights</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Overview Page</h3>
-      <p>Total Accidents KPI | Yearly Trend | Severity Bar | Map by State</p>
-      <p><i>Peak accidents during low visibility and rain periods.</i></p>
-    </div>
-    <div class="card">
-      <h3>Weather Impact Page</h3>
-      <p>Temperature vs Accidents | Visibility Impact Bar | Precipitation Scatter</p>
-      <p><i>Accidents increase when visibility < 5 miles.</i></p>
-    </div>
-    <div class="card">
-      <h3>Time & Trend Page</h3>
-      <p>Hourly Heatmap | Day-of-Week Analysis | Monthly Pattern</p>
-      <p><i>Rush hours and Fridays show highest risk.</i></p>
-    </div>
-    <div class="card">
-      <h3>Regional Comparison</h3>
-      <p>Top Cities | Severity Donut | Weather Condition Stacked Bar</p>
-      <p><i>Southern states show strong precipitation-severity link.</i></p>
+<!-- GOALS & TOOLS -->
+<section class="section">
+  <div class="container">
+    <div class="cards">
+      <div class="card span-6">
+        <h3>🎯 Goals</h3>
+        <ul>
+          <li>Understand how weather factors drive accident frequency and severity.</li>
+          <li>Deliver a live, refreshable dashboard using SharePoint web links.</li>
+          <li>Make insights accessible for non-technical audiences.</li>
+          <li>Keep the model scalable to add traffic/vehicle data later.</li>
+        </ul>
+      </div>
+      <div class="card span-6">
+        <h3>🧩 Stack</h3>
+        <ul>
+          <li>Power BI Desktop (visualization & DAX)</li>
+          <li>Excel / Power Query (cleaning & shaping)</li>
+          <li>SharePoint Online (dynamic data host)</li>
+          <li>Kaggle US Accidents (source dataset)</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="budget">
-  <h2>💰 Budget Breakdown ($40 000)</h2>
-  <table>
-    <tr><th>Workstream</th><th>Scope</th><th>Hours</th><th>Rate</th><th>Total</th></tr>
-    <tr><td>Data Engineering</td><td>Cleaning, SharePoint setup</td><td>120</td><td>$120</td><td>$14 400</td></tr>
-    <tr><td>Modeling & DAX</td><td>Relationships, measures</td><td>80</td><td>$120</td><td>$9 600</td></tr>
-    <tr><td>Dashboard UX</td><td>Design & visuals</td><td>70</td><td>$110</td><td>$7 700</td></tr>
-    <tr><td>Documentation & Site</td><td>README, presentation</td><td>60</td><td>$100</td><td>$6 000</td></tr>
-    <tr><td>PM & Review</td><td>Testing & delivery</td><td>25</td><td>$92</td><td>$2 300</td></tr>
-    <tr style="font-weight:bold;"><td colspan="4">Total</td><td>$40 000</td></tr>
-  </table>
+<!-- DATA SOURCE -->
+<section class="section" id="data">
+  <div class="container">
+    <span class="badge">Data Source</span>
+    <h2>📦 Kaggle Dataset (Updated)</h2>
+    <p>The project uses the <a href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated"><strong>US Accidents</strong></a> dataset: accident ID & severity, geolocation (city/state/ZIP), timestamps, plus weather metrics (temperature, humidity, pressure, visibility, wind, precipitation).</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Kept for Analysis</h3>
+        <ul>
+          <li>Accident: ID, Severity, Start/End Time, Distance, City/County/State, Zip, Timezone</li>
+          <li>Weather: Timestamp, Temperature(F), Humidity(%), Pressure(in), Visibility(mi), Wind Speed(mph), Precipitation(in), Condition</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Removed to Focus</h3>
+        <p>Roadway flags and twilight fields (e.g., <code>Amenity</code>, <code>Bump</code>, <code>Junction</code>, <code>Traffic_Signal</code>, etc.) to keep a clean weather-risk story and faster refresh.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- PIPELINE -->
+<section class="section" id="pipeline">
+  <div class="container">
+    <span class="badge">Dynamic Connection</span>
+    <h2>🔗 Pipeline — Kaggle ➝ SharePoint ➝ Power BI</h2>
+    <div class="steps" style="margin-top:16px">
+      <div class="step"><span class="n">1</span><strong>Download</strong> from Kaggle (CSV/XLSX)</div>
+      <div class="step"><span class="n">2</span><strong>Clean</strong> in Excel/Power Query (filter, normalize datetime)</div>
+      <div class="step"><span class="n">3</span><strong>Split</strong> into two sheets: <em>Accident_Data</em>, <em>Weather_Data</em></div>
+      <div class="step"><span class="n">4</span><strong>Host</strong> on SharePoint, copy shareable web link</div>
+      <div class="step"><span class="n">5</span><strong>Connect</strong> in Power BI: <em>Home → Get Data → Web</em></div>
+      <div class="step"><span class="n">6</span><strong>Refresh</strong> to keep dashboards current</div>
+    </div>
+  </div>
+</section>
+
+<!-- PREPARATION -->
+<section class="section" id="prep">
+  <div class="container">
+    <span class="badge">Data Preparation</span>
+    <h2>🧮 Cleaning, Profiling & Derivations</h2>
+    <div class="cards">
+      <div class="card span-6">
+        <h3>Power Query Quality</h3>
+        <ul>
+          <li>Checked duplicates in both tables</li>
+          <li>Filled nulls (Fill Up / Fill Down) where appropriate</li>
+          <li>Verified column quality & distributions (profiling)</li>
+          <li>Standardized datetime formats</li>
+        </ul>
+      </div>
+      <div class="card span-6">
+        <h3>Derived Columns</h3>
+        <ul>
+          <li><strong>Year, Month, Day_of_Week, Hour</strong> (from Start_Time)</li>
+          <li><strong>GeoKey</strong> (City + State + Zip) for joins with weather</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL -->
+<section class="section" id="model">
+  <div class="container">
+    <span class="badge">Modeling & DAX</span>
+    <h2>🧠 Star Schema & Measures</h2>
+    <div class="cards">
+      <div class="card span-6">
+        <h3>Model</h3>
+        <table class="table">
+          <tr><th>Table</th><th>Purpose</th></tr>
+          <tr><td>Accident_Data</td><td>Fact (accident details)</td></tr>
+          <tr><td>Weather_Data</td><td>Lookup (weather metrics)</td></tr>
+          <tr><td>Dim_Date</td><td>Calendar via <code>CALENDAR()</code></td></tr>
+          <tr><td>Dim_Hour</td><td>0–23 hour lookup</td></tr>
+        </table>
+        <p style="margin-top:10px"><strong>Relationships:</strong> Dim_Date[Date] → Accident_Data[Start_Date]; Dim_Hour[Hour] → Accident_Data[Start_Hour]; Weather_Data[GeoKey] → Accident_Data[GeoKey].</p>
+      </div>
+      <div class="card span-6">
+        <h3>DAX (Report Editor)</h3>
+        <ul>
+          <li><strong>Total Accidents</strong> = <code>COUNTROWS(Accident_Data)</code></li>
+          <li><strong>Average Temperature (°F)</strong> = <code>AVERAGE(Weather_Data[Temperature(F)])</code></li>
+          <li><strong>Average Visibility (mi)</strong> = <code>AVERAGE(Weather_Data[Visibility(mi)])</code></li>
+          <li><strong>Accidents by Year</strong> = <code>CALCULATE(COUNTROWS(Accident_Data), VALUES(Dim_Date[Year]))</code></li>
+          <li><strong>Weather Impact Index</strong> = custom ratio combining accidents with precipitation & visibility</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARDS -->
+<section class="section" id="dash">
+  <div class="container">
+    <span class="badge">Power BI Views</span>
+    <h2>📊 Dashboard Structure & Insights</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Overview</h3>
+        <p>KPIs (Total Accidents), Yearly trend (Area), Severity split (Bar), Map by State.</p>
+        <p><em>Insight:</em> Peaks coincide with higher precipitation & poor visibility.</em></p>
+      </div>
+      <div class="card">
+        <h3>Weather Impact</h3>
+        <p>Temperature vs Accidents (Combo), Visibility Impact (Bar), Precipitation (Scatter), humidity/wind KPIs.</p>
+        <p><em>Insight:</em> Accidents rise when visibility &lt; 5 miles.</p>
+      </div>
+      <div class="card">
+        <h3>Time & Trends</h3>
+        <p>Hourly heatmap, Day-of-week comparison, Monthly seasonality.</p>
+        <p><em>Insight:</em> Rush hours (7–9 AM, 4–7 PM) and Fridays/winter months show higher incidents.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Comparison</h3>
+        <p>State slicer, Top 10 cities, Severity donut, Weather-condition breakdown.</p>
+        <p><em>Insight:</em> Southern/Eastern states show stronger precipitation-severity correlation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section class="section" id="budget">
+  <div class="container">
+    <span class="badge">Budget</span>
+    <h2>💰 Project Budget — <span style="color:var(--brand-3)">$40,000</span></h2>
+    <p class="callout"><strong>Important:</strong> Replace the <em>line items below</em> with the exact streams from your submitted documents so this matches the professor-approved breakdown. The layout and total are ready; just edit the labels/rows.</p>
+
+    <!-- ─────────────────────────────────────────────────────────────
+         TODO: Replace the five example rows with YOUR exact streams.
+         Keep the table structure; update labels/hours/rates/totals.
+         ───────────────────────────────────────────────────────────── -->
+    <table class="table">
+      <tr><th>Stream</th><th>Scope</th><th>Hours</th><th>Rate</th><th>Total</th></tr>
+      <tr><td><!-- e.g., Data Sourcing & Governance -->Your Stream 1</td><td>scope text…</td><td>—</td><td>—</td><td>$—</td></tr>
+      <tr><td><!-- e.g., Transformation & QA -->Your Stream 2</td><td>scope text…</td><td>—</td><td>—</td><td>$—</td></tr>
+      <tr><td><!-- e.g., Modeling & DAX -->Your Stream 3</td><td>scope text…</td><td>—</td><td>—</td><td>$—</td></tr>
+      <tr><td><!-- e.g., Dashboards & Storytelling -->Your Stream 4</td><td>scope text…</td><td>—</td><td>—</td><td>$—</td></tr>
+      <tr><td><!-- e.g., Documentation & Handover -->Your Stream 5</td><td>scope text…</td><td>—</td><td>—</td><td>$—</td></tr>
+      <tr><td colspan="4" style="text-align:right"><strong>Total</strong></td><td><strong>$40,000</strong></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- DOCS -->
+<section class="section" id="docs">
+  <div class="container">
+    <span class="badge">Documentation</span>
+    <h2>📚 How We Built It — Plain-English Steps</h2>
+    <div class="cards">
+      <div class="card span-12">
+        <h3>End-to-End</h3>
+        <ol>
+          <li><strong>Source:</strong> Downloaded the Kaggle dataset.</li>
+          <li><strong>Clean & Split:</strong> Power Query to remove unneeded fields; split into <em>Accident_Data</em> and <em>Weather_Data</em>.</li>
+          <li><strong>Host:</strong> Uploaded both files to SharePoint and copied the shareable web links.</li>
+          <li><strong>Connect:</strong> In Power BI, used <em>Get Data → Web</em> to connect dynamically to SharePoint links.</li>
+          <li><strong>Validate:</strong> Checked duplicates, filled nulls, profiled columns, unified datetime formats.</li>
+          <li><strong>Model:</strong> Built a star schema (Accident_Data fact, Weather_Data lookup, Dim_Date, Dim_Hour) and defined relationships.</li>
+          <li><strong>Measure:</strong> Created DAX measures (Total Accidents, Avg Temp, Avg Visibility, Accidents by Year, Weather Impact Index).</li>
+          <li><strong>Visualize:</strong> Designed 4 dashboard pages (Overview, Weather Impact, Time & Trends, Regional Comparison).</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>Developed by Aishwarya Baluri | Data Analyst & BI Developer</p>
-  <p>📍 Saint Louis, USA | Graduating Dec 2024 | Weather Analytics Project</p>
+  <div class="container">
+    <p><strong>Weather-Aware Accident Risk Platform</strong> — Built with Power BI • SharePoint • Kaggle</p>
+    <p>Designed for non-technical stakeholders to understand accident risk under changing weather.</p>
+  </div>
 </footer>
 
 </body>
