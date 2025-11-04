@@ -1,129 +1,317 @@
-<section id="dashboards">
-  <h2>Dashboard Pages & Insights</h2>
-  <p>Each dashboard page was designed to answer a specific analytical question and includes clearly defined KPIs, visuals, and insights derived from the Power BI report.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Weather-Aware Accident Risk Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f7f9fc;
+      --text-main: #1c2431;
+      --text-sub: #4a5568;
+      --accent: #0d6efd;       /* deep blue */
+      --accent2: #00a7a7;      /* teal */
+      --gray-line: #e4e9f1;
+      --radius: 12px;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: linear-gradient(120deg, var(--accent) 0%, #1572e8 50%, #319795 100%);
+      color: white;
+      text-align: center;
+      padding: 110px 20px;
+    }
+    header h1 { font-size: 3rem; margin-bottom: 20px; }
+    header p { font-size: 1.2rem; color: #f0f6ff; max-width: 800px; margin: 0 auto; }
+    nav {
+      position: sticky;
+      top: 0;
+      background: white;
+      border-bottom: 1px solid var(--gray-line);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 22px;
+      padding: 14px;
+      z-index: 10;
+    }
+    nav a {
+      color: var(--text-sub);
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    nav a:hover { color: var(--accent); }
+    section {
+      padding: 80px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 22px;
+      border-bottom: 3px solid var(--accent2);
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+    p { margin-bottom: 18px; color: var(--text-sub); }
+    .cards {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-line);
+      transition: transform 0.3s ease;
+    }
+    .card:hover { transform: translateY(-5px); }
+    .card h3 {
+      color: var(--accent2);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      box-shadow: var(--shadow);
+    }
+    th, td {
+      padding: 14px 16px;
+      border: 1px solid var(--gray-line);
+    }
+    th {
+      background: #f1f5fb;
+      color: var(--accent);
+      text-align: left;
+      font-weight: 600;
+    }
+    td { color: var(--text-sub); }
+    .callout {
+      background: #e8f8f8;
+      border-left: 5px solid var(--accent2);
+      padding: 18px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      color: var(--text-main);
+    }
+    footer {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--surface);
+      color: var(--text-sub);
+      border-top: 1px solid var(--gray-line);
+    }
+    footer p { margin: 6px 0; font-size: 0.95rem; }
+    img.hero-img {
+      width: 100%;
+      border-radius: 16px;
+      margin-top: 30px;
+      box-shadow: var(--shadow);
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
 
+<header>
+  <h1>Weather-Aware Accident Risk Platform</h1>
+  <p>Power BI analytics integrating real-time weather and traffic data to identify, analyze, and mitigate accident risks across U.S. regions.</p>
+</header>
+
+<nav>
+  <a href="#overview">Overview</a>
+  <a href="#data-source">Data Source</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#dashboards">Dashboards</a>
+  <a href="#analysis">Analysis & Insights</a>
+  <a href="#recommendations">Recommendations</a>
+  <a href="#budget">Budget</a>
+  <a href="#documentation">Documentation</a>
+</nav>
+
+<section id="overview">
+  <h2>Project Overview</h2>
+  <p>The <strong>Weather-Aware Accident Risk Platform</strong> is a comprehensive data-driven system built using Power BI, integrating accident data from Kaggle with live weather details hosted on SharePoint. The goal is to help transportation departments and the public understand how temperature, precipitation, visibility, and wind affect accident likelihood and severity.</p>
+</section>
+<!-- Map Visualization -->
+<div style="
+    text-align:center;
+    margin:40px auto;
+    max-width:900px;
+">
+  <img 
+    src="usa-map.png" 
+    alt="US Accident Density Map" 
+    style="
+      width:100%;
+      height:auto;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.15);
+      border:1px solid #e5e7eb;
+    "
+  />
+</div>
+
+
+<section id="data-source">
+  <h2>Data Source</h2>
+  <p>Primary dataset: <a href="https://www.kaggle.com/datasets/ajjjuupd/us-accedent-updated">U.S. Accidents (Updated)</a> from Kaggle, covering years 2016–2023.</p>
   <div class="cards">
-
-    <!-- OVERVIEW PAGE -->
     <div class="card">
-      <h3>1. Overview Page</h3>
-      <p><strong>Purpose:</strong> Provide a nationwide snapshot of accident trends and key performance indicators.</p>
+      <h3>Included Data</h3>
       <ul>
-        <li><strong>KPIs:</strong> 
-          <ul>
-            <li>Total Accidents</li>
-            <li>Severe Accidents</li>
-            <li>Weather-Related %</li>
-            <li>Average Severity</li>
-          </ul>
-        </li>
-        <li><strong>Core Visuals:</strong> 
-          <ul>
-            <li>US Map – Accident Density by State</li>
-            <li>Top 5 Weather Conditions Causing Accidents</li>
-            <li>Severe vs Total Accidents (Pie Chart)</li>
-          </ul>
-        </li>
-        <li><strong>Insights:</strong>
-          <ul>
-            <li>Over <b>1.04 million</b> total accidents were recorded nationwide.</li>
-            <li>Approximately <b>65%</b> of these occurred during <b>Clear or Fair weather</b>, indicating that traffic volume and driver behavior outweigh purely weather conditions.</li>
-            <li><b>California, Texas, and Florida</b> account for the highest total accident counts across all years.</li>
-          </ul>
-        </li>
+        <li>Accident_ID, Severity, Start_Time, End_Time, Distance, City, State</li>
+        <li>Weather features – Temperature, Humidity, Visibility, Wind Speed, Precipitation</li>
       </ul>
     </div>
-
-    <!-- WEATHER IMPACT PAGE -->
     <div class="card">
-      <h3>2. Weather Impact Page</h3>
-      <p><strong>Purpose:</strong> Understand how specific weather conditions influence accident likelihood and severity.</p>
-      <ul>
-        <li><strong>KPIs:</strong> 
-          <ul>
-            <li>Average Temperature (°F): 64.8</li>
-            <li>Average Visibility (mi): 9.2</li>
-            <li>Average Precipitation (in): 0.05</li>
-            <li>Average Humidity (%): 65.9</li>
-            <li>Average Wind Speed (mph): 7.6</li>
-          </ul>
-        </li>
-        <li><strong>Core Visuals:</strong> 
-          <ul>
-            <li>Total vs Severe Accidents by Weather Condition</li>
-            <li>Average Temperature, Precipitation, and Visibility by Condition</li>
-            <li>Weather Impact Narrative (text insight)</li>
-          </ul>
-        </li>
-        <li><strong>Insights:</strong>
-          <ul>
-            <li>Most accidents occur under <b>Fair and Clear</b> conditions (good weather), due to overconfidence and high traffic volume.</li>
-            <li><b>Visibility below 5 miles</b> and <b>precipitation above 0.3 in</b> significantly increase accident severity.</li>
-            <li>States like <b>Vermont, Washington, and Wyoming</b> show >70% weather-related accident ratios.</li>
-            <li>Extreme weather (Fog, Dust Storms) has fewer cases but far higher severity ratings.</li>
-          </ul>
-        </li>
-      </ul>
+      <h3>Excluded Columns</h3>
+      <p>Removed unnecessary fields like Amenity, Station, Bump, and Twilight data to focus on core weather–accident relationships.</p>
     </div>
-
-    <!-- LOCATION RISK PAGE -->
-    <div class="card">
-      <h3>3. Location Risk Page</h3>
-      <p><strong>Purpose:</strong> Identify which states and cities experience the highest accident density and severity.</p>
-      <ul>
-        <li><strong>KPIs:</strong>
-          <ul>
-            <li>Total Accidents</li>
-            <li>States Covered: 49</li>
-            <li>Average Severity Index</li>
-          </ul>
-        </li>
-        <li><strong>Core Visuals:</strong>
-          <ul>
-            <li>Filled Map – Accident Density by State</li>
-            <li>Top 10 States by Total Accidents</li>
-            <li>City-Level Accident Table (City, State, Total, Severity, Avg Temp)</li>
-          </ul>
-        </li>
-        <li><strong>Insights:</strong>
-          <ul>
-            <li><b>California, Texas, and Florida</b> lead in total accident volume.</li>
-            <li>Urban areas like <b>Los Angeles, Dallas, and Miami</b> consistently appear as top accident-prone cities.</li>
-            <li>Some states like <b>Wyoming and Vermont</b> show lower total accidents but higher average severity, implying more serious outcomes per crash.</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <!-- TIME TRENDS PAGE -->
-    <div class="card">
-      <h3>4. Time-Based Trends Page</h3>
-      <p><strong>Purpose:</strong> Discover when accidents are most frequent — by year, month, weekday, and hour.</p>
-      <ul>
-        <li><strong>KPIs:</strong>
-          <ul>
-            <li>Total Accidents</li>
-            <li>Average Accidents per Month</li>
-            <li>Peak Hour Accidents</li>
-          </ul>
-        </li>
-        <li><strong>Core Visuals:</strong>
-          <ul>
-            <li>Monthly Accident Trend (Bar Chart)</li>
-            <li>Accidents by Weekday (Column Chart)</li>
-            <li>Hourly Trend (Line Chart)</li>
-          </ul>
-        </li>
-        <li><strong>Insights:</strong>
-          <ul>
-            <li><b>December and January</b> record the highest accident counts — correlating with winter and holiday travel.</li>
-            <li><b>Fridays</b> show the most accidents across the week (end-of-week rush + fatigue).</li>
-            <li>Peak accident hours: <b>7–9 AM</b> and <b>4–6 PM</b> (commute periods).</li>
-            <li>Year-over-year analysis shows slight decrease after 2021, suggesting effective post-pandemic road management.</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
   </div>
 </section>
+
+<section id="pipeline">
+  <h2>Data Pipeline</h2>
+  <p>The workflow includes data extraction, transformation, and visualization:</p>
+  <ol>
+    <li>Downloaded Kaggle dataset and cleaned it in Excel/Power Query.</li>
+    <li>Split data into <b>Accident_Data</b> and <b>Weather_Data</b> sheets.</li>
+    <li>Uploaded files to SharePoint for dynamic web connectivity.</li>
+    <li>Connected SharePoint URLs into Power BI → Get Data → Web → Load.</li>
+    <li>Established relationships using composite keys for hourly weather mapping.</li>
+  </ol>
+</section>
+<div style="
+    text-align:center;
+    margin:40px auto;
+    max-width:900px;
+">
+  <img 
+    src="Overview.png " 
+    alt="Overview" 
+    style="
+      width:100%;
+      height:auto;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.15);
+      border:1px solid #e5e7eb;
+    "
+  />
+</div>
+
+<section id="dashboards">
+  <h2>Dashboard Pages</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>1. Overview</h3>
+      <p>Shows KPIs and nationwide accident distribution, highlighting total vs severe cases and identifying top weather categories.</p>
+    </div>
+    <div class="card">
+      <h3>2. Weather Impact</h3>
+      <p>Explores how precipitation, temperature, humidity, and visibility influence accident counts and severity levels.</p>
+    </div>
+    <div class="card">
+      <h3>3. Location Risk</h3>
+      <p>Highlights accident density by state and city through an interactive map and ranked tables of accident-prone regions.</p>
+    </div>
+    <div class="card">
+      <h3>4. Time Trends</h3>
+      <p>Displays seasonal and daily patterns, showing when accidents most often occur (month, weekday, and hour).</p>
+    </div>
+  </div>
+</section>
+
+<section id="analysis">
+  <h2>Analysis Insights</h2>
+  <div class="card">
+    <h3>Key Analytical Findings</h3>
+    <ul>
+      <li>Over <strong>1 million accidents</strong> recorded  with nearly 65% under “Fair” or “Clear” weather, indicating driver behavior plays a key role.</li>
+      <li><strong>Visibility below 5 miles</strong> and <strong>precipitation over 0.3 inches</strong> increase accident likelihood by 20–30%.</li>
+      <li>States like <strong>Texas, Florida, and California</strong> have the highest total accidents; however, smaller states such as <strong>Vermont and Wyoming</strong> show higher weather-related severity percentages.</li>
+      <li>Peak accidents occur in <strong>December and January</strong> (winter) and on <strong>Fridays</strong>, aligning with bad weather and higher travel frequency.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Weather Conditions Linked to Higher Risk</h3>
+    <table>
+      <tr><th>Weather Condition</th><th>Observed Impact</th></tr>
+      <tr><td>Fog / Mist</td><td>High risk due to reduced visibility, severe accident share > 35%</td></tr>
+      <tr><td>Rain / Drizzle</td><td>Increases likelihood of minor collisions by up to 25%</td></tr>
+      <tr><td>Snow / Ice Pellets</td><td>Associated with slower response times and road skidding</td></tr>
+      <tr><td>Thunderstorms</td><td>Low frequency but very high severity; electrical outages add complexity</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="recommendations">
+  <h2>Recommendations</h2>
+  <div class="card">
+    <h3>For Clients & Stakeholders</h3>
+    <ul>
+      <li>Develop <strong>AI-driven road monitoring dashboards</strong> that use live weather feeds to predict high-risk zones.</li>
+      <li>Prioritize infrastructure upgrades in states with high <em>weather severity index</em> (e.g., Vermont, Washington, Wyoming).</li>
+      <li>Increase public information campaigns during months with poor weather visibility (November–January).</li>
+      <li>Implement <strong>dynamic warning systems</strong> ,automatic road sign updates during rain, fog, or snowfall.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>For Public Awareness</h3>
+    <ul>
+      <li>Avoid sudden braking or lane changes when <strong>visibility < 5 miles</strong>.</li>
+      <li>Check real-time weather apps before long drives; delay travel during fog or heavy rain.</li>
+      <li>Keep safe distance and reduce speed by 10–20 mph during snow or thunderstorms.</li>
+      <li>Regularly inspect tires and wipers before winter season; most accidents occur due to reduced traction and poor vision.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="budget">
+  <h2>Budget & Resource Allocation</h2>
+  <p class="callout">The total estimated project investment is <strong>$40,000 USD</strong>, distributed across software, data sources, team, and infrastructure.</p>
+  <table>
+    <tr><th>Resource</th><th>Description</th><th>Budget (USD)</th></tr>
+    <tr><td>Software / Tools</td><td>Power BI Desktop, Power BI Service Enterprise licenses</td><td>$6,000</td></tr>
+    <tr><td>Data Sources</td><td>Live weather & traffic datasets from public APIs</td><td>$8,000</td></tr>
+    <tr><td>Team Scale</td><td>5-member team: Data Analyst, BI Developer, Project Lead</td><td>$16,000</td></tr>
+    <tr><td>Infrastructure</td><td>High-performance PCs, cloud storage, SharePoint hosting</td><td>$5,000</td></tr>
+    <tr><td>Management & Reporting</td><td>Weekly reports, presentation material, stakeholder review</td><td>$5,000</td></tr>
+    <tr><th colspan="2" style="text-align:right;">Total</th><th>$40,000</th></tr>
+  </table>
+</section>
+
+<section id="documentation">
+  <h2>Documentation</h2>
+  <p>This project demonstrates a realistic BI workflow suitable for both academic and enterprise deployment. From <strong>data extraction to automated refreshes</strong>, it highlights how weather analytics can be integrated into accident management systems for decision-making and public safety improvement.</p>
+  <p><strong>Future Scope:</strong> integrate live APIs (OpenWeatherMap, DOT feed), enable predictive modeling using Azure ML, and deploy the dashboard in Power BI Service for real-time alerts.</p>
+</section>
+
+<footer>
+  <p>© 2025 Weather-Aware Accident Risk Platform | Developed by Group 2 | Saint Louis University</p>
+  <p>Empowering data-driven road safety awareness through Power BI Desktop</p>
+</footer>
+
+</body>
+</html>
