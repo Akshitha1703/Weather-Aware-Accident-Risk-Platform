@@ -1,230 +1,849 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weather-Aware Accident Risk Platform</title>
+  <meta charset="UTF-8" />
+  <title>Weather-Aware Accident Risk Platform | MRP Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+  <style>
+    :root {
+      --bg: #020617;           /* page background (very dark blue) */
+      --bg-panel: #0b1220;     /* dark panels */
+      --bg-panel-alt: #020617;
+      --card: #020617;
+      --card-alt: #0f172a;
+      --border: #1f2937;
+      --accent: #3b82f6;       /* bright blue */
+      --accent-soft: rgba(59,130,246,0.12);
+      --accent-strong: #60a5fa;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --danger: #f97373;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 40px rgba(15,23,42,0.7);
+      --container: 1180px;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-        font-family: 'Inter', sans-serif;
-        background: #f5f7fb;
-        color: #1d1d1d;
-        line-height: 1.6;
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 50%, #020617 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .page {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
     }
 
-    /* NAVIGATION */
+    /* TOP BAR */
     header {
-        background: #0d6efd;
-        padding: 22px;
-        color: #fff;
-        text-align: center;
-        font-size: 1.4rem;
-        font-weight: 700;
-        letter-spacing: 1px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(2,6,23,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid #1f2937;
     }
+    .nav-inner {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 0, #93c5fd, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #0b1120;
+      box-shadow: 0 0 30px rgba(59,130,246,0.8);
+      font-size: 0.95rem;
+    }
+    .brand-main {
+      font-weight: 600;
+      font-size: 0.98rem;
+    }
+    .brand-sub {
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
     nav {
-        background: #ffffff;
-        padding: 14px 20px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        position: sticky;
-        top: 0;
-        z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: flex-end;
     }
-    nav ul {
-        display: flex;
-        list-style: none;
-        justify-content: center;
-        gap: 25px;
-        flex-wrap: wrap;
+    .nav-link {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      transition: 0.25s;
     }
-    nav a {
-        text-decoration: none;
-        color: #333;
-        font-weight: 600;
-        transition: 0.3s;
+    .nav-link:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
     }
-    nav a:hover { color: #0d6efd; }
+
+    /* HERO / HOME */
+    #home {
+      padding: 3.5rem 0 2.5rem;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0,1.4fr) minmax(0,1.5fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15,23,42,0.9);
+      border: 1px solid #1f2937;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+    .hero-tag span {
+      background: #22c55e;
+      width: 7px; height: 7px;
+      border-radius: 999px;
+    }
+    .hero-title {
+      font-size: 2.3rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.6rem;
+    }
+    .hero-subtitle {
+      font-size: 0.96rem;
+      color: var(--muted);
+      max-width: 520px;
+    }
+    .hero-kpis {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.1rem;
+    }
+    .kpi {
+      padding: 0.7rem 0.9rem;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, rgba(37,99,235,0.45), #020617);
+      border: 1px solid rgba(55,65,81,0.9);
+      min-width: 130px;
+    }
+    .kpi-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .kpi-value {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .hero-actions {
+      margin-top: 1.7rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0b1120;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-soft);
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+      cursor: pointer;
+    }
+    .btn-ghost {
+      background: transparent;
+      border-radius: var(--radius-pill);
+      border: 1px solid #334155;
+      padding: 0.55rem 1.1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .hero-screen {
+      background: radial-gradient(circle at top, rgba(37,99,235,0.25), #020617);
+      border-radius: var(--radius-xl);
+      border: 1px solid #1f2937;
+      padding: 0.8rem;
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-screen img {
+      border-radius: var(--radius-lg);
+      border: 1px solid #1f2937;
+    }
 
     /* SECTIONS */
     section {
-        padding: 60px 10%;
-        max-width: 1100px;
-        margin: auto;
+      margin-top: 3rem;
+      padding-top: 1rem;
     }
-    h2 {
-        margin-bottom: 20px;
-        color: #0d6efd;
-        font-size: 2rem;
-        font-weight: 700;
-        border-left: 5px solid #00b4b4;
-        padding-left: 12px;
+    .section-header {
+      margin-bottom: 1.2rem;
     }
-    p { font-size: 1rem; color: #444; margin-bottom: 12px; }
-
-    /* IMAGE DISPLAY */
-    .img-box {
-        background: white;
-        padding: 14px;
-        border-radius: 12px;
-        margin: 25px 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    .eyebrow {
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .img-box img {
-        width: 100%;
-        border-radius: 10px;
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-top: 0.15rem;
+    }
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 700px;
+      margin-top: 0.4rem;
     }
 
-    /* DOWNLOAD BUTTON */
-    .download-btn {
-        display: inline-block;
-        background: #0d6efd;
-        color: #fff;
-        padding: 12px 22px;
-        margin-top: 15px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: 0.3s;
+    .panel {
+      background: var(--bg-panel);
+      border-radius: var(--radius-lg);
+      border: 1px solid #1f2937;
+      padding: 1.1rem 1.15rem;
+      box-shadow: var(--shadow-soft);
     }
-    .download-btn:hover { background: #084fc7; }
 
-    /* FOOTER */
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0,1.25fr) minmax(0,1.35fr);
+      gap: 1.7rem;
+      align-items: flex-start;
+    }
+
+    .list {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+    .list li {
+      position: relative;
+      padding-left: 0.95rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .list li::before {
+      content: "";
+      width: 5px; height: 5px;
+      border-radius: 999px;
+      background: var(--accent);
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+    }
+
+    .tag-row {
+      margin-top: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tag {
+      padding: 0.18rem 0.6rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      background: rgba(30,64,175,0.6);
+      color: #e5e7eb;
+      border: 1px solid #1d4ed8;
+    }
+
+    .screenshot {
+      border-radius: var(--radius-lg);
+      border: 1px solid #1f2937;
+      box-shadow: var(--shadow-soft);
+      margin-top: 0.4rem;
+    }
+    .caption {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* DASHBOARD GRID */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 1.4rem;
+    }
+    .dash-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 1px solid #1f2937;
+      padding: 0.9rem;
+      box-shadow: var(--shadow-soft);
+    }
+    .dash-card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.35rem;
+    }
+    .dash-card p {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    /* BUDGET TABLE */
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.7rem;
+      font-size: 0.86rem;
+    }
+    .budget-table th,
+    .budget-table td {
+      padding: 0.55rem 0.7rem;
+      border-bottom: 1px solid #1f2937;
+    }
+    .budget-table th {
+      text-align: left;
+      color: var(--muted);
+      font-weight: 500;
+      background: rgba(15,23,42,0.9);
+    }
+    .budget-table tfoot td {
+      font-weight: 600;
+      border-top: 1px solid #334155;
+    }
+
+    /* HOW TO USE LIST */
+    .steps {
+      list-style: none;
+      margin-top: 0.4rem;
+    }
+    .steps li {
+      padding-left: 1.2rem;
+      position: relative;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+    .steps li::before {
+      content: counter(step);
+      counter-increment: step;
+      position: absolute;
+      left: 0;
+      top: 0.1rem;
+      width: 0.9rem;
+      height: 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .steps { counter-reset: step; }
+
+    /* TEAM */
+    .team-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    .chip {
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: rgba(31,41,55,0.9);
+      border: 1px solid #374151;
+      font-size: 0.84rem;
+      color: #e5e7eb;
+    }
+
+    /* DOWNLOAD */
+    .download-panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .download-panel p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
     footer {
-        background: #0d6efd;
-        padding: 25px;
-        color: white;
-        text-align: center;
-        margin-top: 60px;
-        font-size: 0.95rem;
+      padding: 2rem 0 0;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
-</style>
+    @media (max-width: 860px) {
+      .hero, .two-col {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        text-align: left;
+      }
+      .hero-subtitle {
+        max-width: 100%;
+      }
+      nav {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
 <header>
-    Weather-Aware Accident Risk Platform
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-logo">WA</div>
+      <div>
+        <div class="brand-main">Weather-Aware Accident Risk Platform</div>
+        <div class="brand-sub">MRP · Team 02 · Power BI Analytics</div>
+      </div>
+    </div>
+    <nav>
+      <a class="nav-link" href="#home">Home</a>
+      <a class="nav-link" href="#overview">Overview</a>
+      <a class="nav-link" href="#weather-impact">Weather Impact</a>
+      <a class="nav-link" href="#location-risk">Location Risk</a>
+      <a class="nav-link" href="#trends">Trends</a>
+      <a class="nav-link" href="#datasource">Data & Integration</a>
+      <a class="nav-link" href="#budget">Budget</a>
+      <a class="nav-link" href="#how-to-use">How to Use</a>
+    </nav>
+  </div>
 </header>
 
-<nav>
-    <ul>
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#data">Data Source</a></li>
-        <li><a href="#pipeline">Pipeline</a></li>
-        <li><a href="#dashboards">Dashboards</a></li>
-        <li><a href="#howtouse">How to Use</a></li>
-        <li><a href="#download">Download Report</a></li>
-    </ul>
-</nav>
+<main class="page">
 
-<!-- OVERVIEW --------------------------------------------------------------->
+  <!-- HOME / HERO -->
+  <section id="home">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">
+          <span></span>
+          Weather · Accidents · Power BI · MRP
+        </div>
+        <h1 class="hero-title">Understand how weather shapes road accident risk.</h1>
+        <p class="hero-subtitle">
+          An end-to-end Power BI platform that connects U.S. accident records with weather
+          conditions to help agencies, analysts, and the public identify high-risk patterns
+          by location, time, and environment.
+        </p>
 
-<section id="overview">
-    <h2>Project Overview</h2>
-    <p>
-        The Weather-Aware Accident Risk Platform is an interactive analytical solution 
-        built using Power BI, integrating U.S. accident data with weather indicators 
-        to understand how environmental conditions influence accident frequency and severity.
-    </p>
+        <div class="hero-kpis">
+          <div class="kpi">
+            <div class="kpi-label">Scope</div>
+            <div class="kpi-value">US Accidents (2016–2023)</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Dashboards</div>
+            <div class="kpi-value">6 interactive pages</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Tech Stack</div>
+            <div class="kpi-value">Power BI · SharePoint</div>
+          </div>
+        </div>
 
-    <div class="img-box">
-        <img src="Home.png" alt="Home Page Dashboard">
+        <div class="hero-actions">
+          <a href="#overview"><button class="btn-primary">View Project Overview</button></a>
+          <a href="#dashboards"><button class="btn-ghost">Explore Dashboards</button></a>
+        </div>
+      </div>
+
+      <div class="hero-screen">
+        <img src="Home.png" alt="Executive overview dashboard screenshot">
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- DATA SOURCE ------------------------------------------------------------->
-<section id="data">
-    <h2>Data Source</h2>
-    <p><b>Primary dataset:</b> U.S. Accidents — Kaggle (2016–2023)</p>
-    <p>Includes road conditions, severity, geolocation, weather variables, and timestamps.</p>
-
-    <div class="img-box">
-        <img src="usa-map.png" alt="USA Map">
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <div class="section-header">
+      <div class="eyebrow">Project Overview</div>
+      <h2 class="section-title">What this platform delivers</h2>
+      <p class="section-subtitle">
+        The Weather-Aware Accident Risk Platform combines historical accident data and weather conditions
+        to answer: <em>When and where are drivers at higher risk, and under which weather patterns?</em>
+      </p>
     </div>
-</section>
 
-<!-- PIPELINE --------------------------------------------------------------->
-<section id="pipeline">
-    <h2>Data Pipeline</h2>
-    <p>The end-to-end pipeline includes:</p>
-    <ul>
-        <li>Dataset cleaning in Power Query</li>
-        <li>Splitting into Accident_Data & Weather_Data</li>
-        <li>SharePoint hosted auto-refresh</li>
-        <li>Modeling with star schema</li>
-        <li>DAX calculations for KPIs</li>
-    </ul>
+    <div class="two-col">
+      <div class="panel">
+        <p style="font-size:0.9rem; color:var(--muted);">
+          The platform is built as a Power BI report with six pages: Home, Overview, Weather Impact,
+          Location Risk, Trends, and a dedicated How to Use page. Each page is designed for a different
+          decision-making need from high-level trends to localized drill-downs.
+        </p>
+        <ul class="list">
+          <li>Summarizes nationwide accident volume and severity under different weather conditions.</li>
+          <li>Highlights patterns across states, cities, and time of day/week/year.</li>
+          <li>Supports data-driven awareness for road safety campaigns and planning.</li>
+        </ul>
+        <div class="tag-row">
+          <div class="tag">Descriptive Analytics</div>
+          <div class="tag">Weather Intelligence</div>
+          <div class="tag">Accident Severity</div>
+        </div>
+      </div>
 
-    <div class="img-box">
-        <img src="Overview.png" alt="Pipeline/Overview Dashboard">
+      <div class="panel">
+        <img src="usa-map.png" alt="U.S. accident distribution map" class="screenshot">
+        <div class="caption">
+          Geographic spread of accidents across the United States, used as context for state and city-level risk.
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<!-- DASHBOARD PAGES --------------------------------------------------------->
-<section id="dashboards">
-    <h2>Dashboard Pages</h2>
-    <p>Below are all 6 pages included in the analytical report.</p>
+  <!-- WEATHER IMPACT -->
+  <section id="weather-impact">
+    <div class="section-header">
+      <div class="eyebrow">Dashboard Page · Weather Impact</div>
+      <h2 class="section-title">How weather conditions influence accidents</h2>
+      <p class="section-subtitle">
+        The Weather Impact page focuses on understanding which weather conditions, visibility levels,
+        and precipitation patterns contribute to higher accident frequency and severity.
+      </p>
+    </div>
 
-    <h3>1. Executive Overview</h3>
-    <div class="img-box"><img src="Home.png" alt="Executive Overview"></div>
+    <div class="two-col">
+      <div class="panel">
+        <h3 style="font-size:0.98rem; margin-bottom:0.4rem;">Key insights from the Weather Impact dashboard</h3>
+        <ul class="list">
+          <li>Most accidents occur in “Clear” or “Fair” weather, highlighting the role of driver behaviour.</li>
+          <li>Reduced visibility (&lt; 5 miles) and moderate to heavy precipitation increase accident likelihood.</li>
+          <li>Certain weather categories (fog, mist, snow) are associated with a higher share of severe accidents.</li>
+        </ul>
+        <div class="tag-row">
+          <div class="tag">Visibility</div>
+          <div class="tag">Precipitation</div>
+          <div class="tag">Weather Condition</div>
+        </div>
+      </div>
 
-    <h3>2. Overview Dashboard</h3>
-    <div class="img-box"><img src="Overview.png" alt="Overview Dashboard"></div>
+      <div class="panel">
+        <img src="WeatherImpact.png" alt="Weather impact dashboard screenshot" class="screenshot">
+        <div class="caption">
+          Weather Impact page: visualizing accidents by weather type, visibility, and precipitation.
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <h3>3. Weather Impact Analysis</h3>
-    <div class="img-box"><img src="WeatherImpact.png" alt="Weather Impact"></div>
+  <!-- LOCATION RISK -->
+  <section id="location-risk">
+    <div class="section-header">
+      <div class="eyebrow">Dashboard Page · Location Risk</div>
+      <h2 class="section-title">Which states and cities show higher risk?</h2>
+      <p class="section-subtitle">
+        The Location Risk page helps users compare accident risk across states and cities, supporting
+        prioritization of interventions and awareness campaigns.
+      </p>
+    </div>
 
-    <h3>4. Location Risk Analysis</h3>
-    <div class="img-box"><img src="Location Risk.png" alt="Location Risk"></div>
+    <div class="two-col">
+      <div class="panel">
+        <h3 style="font-size:0.98rem; margin-bottom:0.4rem;">Key insights from the Location Risk dashboard</h3>
+        <ul class="list">
+          <li>States such as Texas, Florida, and California have the highest total number of accidents.</li>
+          <li>Smaller states, including some with challenging climates, show a higher proportion of weather-related severity.</li>
+          <li>City-level breakdowns highlight specific hotspots where accidents consistently cluster.</li>
+        </ul>
+        <div class="tag-row">
+          <div class="tag">State Comparison</div>
+          <div class="tag">City Hotspots</div>
+          <div class="tag">Geospatial Risk</div>
+        </div>
+      </div>
 
-    <h3>5. Trends Analysis</h3>
-    <div class="img-box"><img src="Trends.png" alt="Trends Page"></div>
+      <div class="panel">
+        <img src="Location Risk.png" alt="Location risk dashboard screenshot" class="screenshot">
+        <div class="caption">
+          Location Risk page: state and city comparisons showing where accidents are concentrated.
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <h3>6. Full Report Page</h3>
-    <p>This view consolidates report-level insights.</p>
-</section>
+  <!-- TRENDS -->
+  <section id="trends">
+    <div class="section-header">
+      <div class="eyebrow">Dashboard Page · Time Trends</div>
+      <h2 class="section-title">When do accidents most frequently occur?</h2>
+      <p class="section-subtitle">
+        The Trends page reveals temporal behaviour by year, month, weekday, and time of day, helping identify
+        high-risk periods under different weather patterns.
+      </p>
+    </div>
 
-<!-- HOW TO USE ------------------------------------------------------------->
-<section id="howtouse">
-    <h2>How to Use This Report</h2>
+    <div class="two-col">
+      <div class="panel">
+        <h3 style="font-size:0.98rem; margin-bottom:0.4rem;">Key insights from the Trends dashboard</h3>
+        <ul class="list">
+          <li>Accidents tend to peak during winter months, particularly December and January.</li>
+          <li>Fridays and evening rush hours show higher concentration of incidents.</li>
+          <li>Year-over-year trends highlight how patterns evolve across time.</li>
+        </ul>
+        <div class="tag-row">
+          <div class="tag">Year-over-Year</div>
+          <div class="tag">Seasonality</div>
+          <div class="tag">Weekday & Hour</div>
+        </div>
+      </div>
 
-    <p><b>1. Use slicers at the top</b> to filter by:</p>
-    <ul>
-        <li>State / City</li>
-        <li>Year</li>
-        <li>Weather Condition</li>
-        <li>Month / Weekday / Hour</li>
-    </ul>
+      <div class="panel">
+        <img src="Trends.png" alt="Time trends dashboard screenshot" class="screenshot">
+        <div class="caption">
+          Trends page: accidents by year, month, weekday, and hour of the day.
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <p><b>2. Hover or click visuals</b> to view tooltips, cross-highlight trends, and compare values.</p>
+  <!-- DATA SOURCES & INTEGRATION -->
+  <section id="datasource">
+    <div class="section-header">
+      <div class="eyebrow">Data & Integration</div>
+      <h2 class="section-title">Data sources and integration workflow</h2>
+      <p class="section-subtitle">
+        The platform is built on public datasets and a reproducible pipeline using Power Query and Power BI modeling.
+      </p>
+    </div>
 
-    <p><b>3. Navigate using page tabs</b> (Overview, Weather Impact, Location Risk, Trends).</p>
+    <div class="two-col">
+      <div class="panel">
+        <h3 style="font-size:0.98rem; margin-bottom:0.4rem;">Primary data sources</h3>
+        <ul class="list">
+          <li><strong>US Accidents Dataset (Kaggle)</strong> – accident-level details including timestamp, location, severity, and weather snapshot.</li>
+          <li><strong>Weather Dataset (Kaggle)</strong> – hourly environmental measures such as temperature, visibility, humidity, wind speed, and precipitation.</li>
+        </ul>
+        <p style="font-size:0.9rem; color:var(--muted); margin-top:0.4rem;">
+          Data is hosted in SharePoint/OneDrive and connected to Power BI using web connectors for dynamic refresh.
+        </p>
+        <div class="tag-row">
+          <div class="tag">Power Query</div>
+          <div class="tag">SharePoint Web Connector</div>
+          <div class="tag">Star Schema</div>
+        </div>
+      </div>
 
-    <p><b>4. Insights text</b> is provided under visuals to explain patterns clearly.</p>
+      <div class="panel">
+        <h3 style="font-size:0.98rem; margin-bottom:0.4rem;">Cleaning & integration steps</h3>
+        <ul class="list">
+          <li>Removed duplicates, standardized timestamps, and split fields into Date, Time, Hour, Month and Weekday.</li>
+          <li>Separated the original file into <em>Accident_Data</em> and <em>Weather_Data</em> logical tables.</li>
+          <li>Handled null values using Fill Up/Down and profiled columns to validate data quality in Power Query.</li>
+          <li>Created keys and relationships to join accident events with corresponding weather snapshots.</li>
+          <li>Designed a star-schema model and used DAX to define KPIs and metrics used across all dashboards.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-    <p><b>5. Use the map</b> to identify high-risk regions and weather patterns.</p>
-</section>
+  <!-- BUDGET -->
+  <section id="budget">
+    <div class="section-header">
+      <div class="eyebrow">Project Budget</div>
+      <h2 class="section-title">Budget allocation (Total: $40,000)</h2>
+      <p class="section-subtitle">
+        The hypothetical budget reflects how an organization could invest in building and operating a production-ready
+        version of this platform.
+      </p>
+    </div>
 
-<!-- DOWNLOAD ---------------------------------------------------------------->
-<section id="download">
-    <h2>Download Power BI File</h2>
-    <p>You can download the full .pbix file using the button below:</p>
+    <div class="panel">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Budget (USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Software &amp; Tools</td>
+            <td>Power BI Desktop, Power BI Pro/Service licenses, SharePoint storage, collaboration tools</td>
+            <td>$6,000</td>
+          </tr>
+          <tr>
+            <td>Data Sources</td>
+            <td>Enhanced weather feeds, government APIs, historical datasets for richer analysis</td>
+            <td>$8,000</td>
+          </tr>
+          <tr>
+            <td>Team Scale &amp; Labor</td>
+            <td>5-member team: Data Engineer, BI Developer, Data Analyst, QA Analyst, Project Lead</td>
+            <td>$16,000</td>
+          </tr>
+          <tr>
+            <td>Infrastructure &amp; Hardware</td>
+            <td>High-performance workstations, cloud storage, network, and hosting</td>
+            <td>$5,000</td>
+          </tr>
+          <tr>
+            <td>Project Management &amp; Delivery</td>
+            <td>Planning, sprints, documentation, stakeholder reviews, final presentation</td>
+            <td>$5,000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total Project Investment</td>
+            <td>$40,000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
 
-    <a href="WeatherAwareAccidentPlatform.pbix" class="download-btn" download>
-        ⬇ Download PBIX Report
-    </a>
-</section>
+  <!-- HOW TO USE -->
+  <section id="how-to-use">
+    <div class="section-header">
+      <div class="eyebrow">Directions</div>
+      <h2 class="section-title">How to use this Power BI report</h2>
+      <p class="section-subtitle">
+        The <strong>How to Use</strong> page in the report provides in-report directions; the summary below is for
+        stakeholders and new users accessing the platform for the first time.
+      </p>
+    </div>
 
-<!-- FOOTER ----------------------------------------------------------------->
-<footer>
-    © 2025 Weather-Aware Accident Risk Platform — Developed by Team 2, Saint Louis University
-</footer>
+    <div class="two-col">
+      <div class="panel">
+        <h3 style="font-size:0.98rem; margin-bottom:0.35rem;">Report navigation & interaction</h3>
+        <ul class="steps">
+          <li>Use the page tabs at the bottom (Home, Overview, Weather Impact, Location Risk, Trends, How to Use) to move between dashboards.</li>
+          <li>Apply slicers at the top of each page to filter by state, city, year, weather condition, and time-related fields.</li>
+          <li>Click on bars, lines, or map regions to cross-filter the other visuals and focus on a particular subset.</li>
+          <li>Hover over points and bars to view detailed tooltips, including counts and severity percentages.</li>
+          <li>Use the clear/reset buttons on slicers (or the built-in eraser icons) to return to the full dataset view.</li>
+        </ul>
 
+        <h3 style="font-size:0.98rem; margin:0.8rem 0 0.35rem;">Interpreting the insights</h3>
+        <ul class="list">
+          <li><strong>Executive/Home pages</strong> – high-level KPIs for overall communication with leadership.</li>
+          <li><strong>Weather Impact</strong> – used by safety teams to understand which conditions require extra alerts.</li>
+          <li><strong>Location Risk</strong> – helps planning teams prioritize high-risk states and cities.</li>
+          <li><strong>Trends</strong> – supports scheduling campaigns and interventions around peak risk periods.</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="section-header">
+      <div class="eyebrow">Team 02</div>
+      <h2 class="section-title">Project contributors</h2>
+      <p class="section-subtitle">
+        This MRP project was delivered collaboratively by Team 02, with shared ownership across data, modeling, design, and documentation.
+      </p>
+    </div>
+
+    <div class="panel">
+      <div style="font-size:0.9rem; color:var(--muted);">
+        <p>Core contributors:</p>
+      </div>
+
+      <div class="team-list">
+        <span class="chip">Akshitha Vujine</span>
+        <span class="chip">Prasoona Manthena</span>
+        <span class="chip">Vasavi Devagiri</span>
+        <span class="chip">Charishma Pulimi</span>
+        <span class="chip">Surya Gowtham Yaramati</span>
+      </div>
+
+      <p style="font-size:0.86rem; color:var(--muted); margin-top:0.7rem;">
+        The team collaborated on dataset understanding, data cleaning in Power Query, Power BI model design, 
+        DAX calculations, dashboard layout, insights framing, and this supporting documentation website.
+      </p>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section id="download">
+    <div class="section-header">
+      <div class="eyebrow">Download</div>
+      <h2 class="section-title">Download the Power BI report (.pbix)</h2>
+      <p class="section-subtitle">
+        Stakeholders and instructors can open the full interactive report in Power BI Desktop for deeper exploration.
+      </p>
+    </div>
+
+    <div class="panel download-panel">
+      <div>
+        <p>
+          Click the button to download the report file and open it in Power BI Desktop.
+          Ensure you have the latest version of Power BI installed.
+        </p>
+      </div>
+      <div>
+        <a href="WeatherAwareAccidentPlatform.pbix" download>
+          <button class="btn-primary">⬇ Download .pbix Report</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Weather-Aware Accident Risk Platform · MRP Project · Team 02 · 2025
+  </footer>
+
+</main>
 </body>
 </html>
